@@ -8,6 +8,6 @@
 		<title>Insert title here</title>
 	</head>
 	<body>
-		<img alt="이미지 오류" src="./img/FirstViewImg.png">
+		<img alt="이미지 오류" src="${pageContext.request.contextPath}/img/FirstViewImg.png">
 	</body>
 </html>

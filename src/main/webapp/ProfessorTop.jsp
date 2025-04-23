@@ -74,7 +74,7 @@
     <div class="nav-item">
       <div class="nav-link">강의관리</div>
       <div class="dropdown">
-        <a href="${pageContext.request.ContextPath}/Professor/LectureList">강의목록 조회</a>
+        <a href="${pageContext.request.contextPath}/Professor/LectureList.do">강의목록 조회</a>
         <a href="#">강의계획서 등록 및 수정</a>
         <a href="#">수업 자료 업로드</a>
       </div>
