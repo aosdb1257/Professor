@@ -17,7 +17,7 @@ public class ProfessorDao {
         Vector<LectureListVo> list = new Vector<>();
 
         String sql = "SELECT subject_code, subject_name, subject_type, open_grade, division, credit, "
-                   + "professor, schedule, enrollment " 
+                   + "professor_id, professor, schedule, enrollment " 
                    + "FROM subject WHERE professor_id = ?";
 
         try {
@@ -34,6 +34,7 @@ public class ProfessorDao {
                 vo.setOpenGrade(rs.getInt("open_grade"));
                 vo.setDivision(rs.getString("division"));
                 vo.setCredit(rs.getInt("credit"));
+                vo.setProfessor(rs.getString("professor_id")); 
                 vo.setProfessor(rs.getString("professor")); 
                 vo.setSchedule(rs.getString("schedule"));
                 vo.setEnrollment(rs.getString("enrollment"));
