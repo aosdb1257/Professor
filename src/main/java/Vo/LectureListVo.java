@@ -7,7 +7,7 @@ public class LectureListVo {
     private int openGrade;          // 개설학년
     private String division;        // 분반
     private int credit;             // 학점
-    private String professor_id;    // 담당교수 id (FK)
+    private int professorId;    // 담당교수 id (FK)
     private String professor;       // 담당교수
     private String schedule;        // 강의 요일/시간/강의실
     private String enrollment;      // 신청/정원
@@ -15,18 +15,21 @@ public class LectureListVo {
 	public LectureListVo() {
 	}
 
+
 	public LectureListVo(String subjectCode, String subjectName, String subjectType, int openGrade, String division,
-			int credit, String professor, String schedule, String enrollment) {
+			int credit, int professorId, String professor, String schedule, String enrollment) {
 		this.subjectCode = subjectCode;
 		this.subjectName = subjectName;
 		this.subjectType = subjectType;
 		this.openGrade = openGrade;
 		this.division = division;
 		this.credit = credit;
+		this.professorId = professorId;
 		this.professor = professor;
 		this.schedule = schedule;
 		this.enrollment = enrollment;
 	}
+
 
 	public String getSubjectCode() { return subjectCode; }
 	public void setSubjectCode(String subjectCode) { this.subjectCode = subjectCode; }
@@ -46,8 +49,8 @@ public class LectureListVo {
 	public int getCredit() { return credit; }
 	public void setCredit(int credit) { this.credit = credit; }
 	
-	public String getProfessor_id() { return professor; }
-	public void setProfessor_id(String professor_id) { this.professor_id = professor_id; }
+	public int getProfessorId() { return professorId; }
+	public void setProfessorId(int professorId) { this.professorId = professorId; }
 
 	public String getProfessor() { return professor; }
 	public void setProfessor(String professor) { this.professor = professor; }

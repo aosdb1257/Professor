@@ -5,6 +5,7 @@ import java.sql.Timestamp;
 public class LecturePlanVo {
     private int planId;
     private String subjectCode;
+    private String subjectName;
     private String professorId;
     private String professorName;
     private String lecturePeriod;
@@ -20,11 +21,12 @@ public class LecturePlanVo {
     public LecturePlanVo() {
 	}
 
-	public LecturePlanVo(int planId, String subjectCode, String professorId, String professorName, String lecturePeriod,
+	public LecturePlanVo(int planId, String subjectCode, String subjectName, String professorId, String professorName, String lecturePeriod,
 			String targetStudents, String mainContent, String goal, String method, String content, String evaluation,
 			Timestamp createdAt, Timestamp updatedAt) {
 		this.planId = planId;
 		this.subjectCode = subjectCode;
+		this.subjectName = subjectName;
 		this.professorId = professorId;
 		this.professorName = professorName;
 		this.lecturePeriod = lecturePeriod;
@@ -46,6 +48,9 @@ public class LecturePlanVo {
 
 	public String getProfessorId() { return professorId; }
 	public void setProfessorId(String professorId) { this.professorId = professorId; }
+	
+	public String getSubjectName() {return subjectName;}
+	public void setSubjectName(String subjectName) {this.subjectName = subjectName;}
 
 	public String getProfessorName() { return professorName; }
 	public void setProfessorName(String professorName) { this.professorName = professorName; }

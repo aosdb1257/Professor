@@ -101,15 +101,15 @@
     <table>
       <tr>
         <td class="label">교과명</td>
-        <td><input type="text" id="subjectName" readonly /></td>
+        <td><input type="text" id="subjectName" name="subjectName" readonly /></td>
       </tr>
       <tr>
         <td class="label">과목코드</td>
-        <td><input type="text" id="subjectCode" readonly /></td>
+        <td><input type="text" id="subjectCode" name="subjectCode" readonly /></td>
       </tr>
       <tr>
         <td class="label">강사명</td>
-        <td><input type="text" id="professor" readonly /></td>
+        <td><input type="text" id="professor" name="professor" readonly /></td>
       </tr>
       <tr>
         <td class="label">강의기간</td>
@@ -117,7 +117,7 @@
       </tr>
       <tr>
         <td class="label">수강대상</td>
-        <td><input type="text" id="open_grade" readonly /></td>
+        <td><input type="text" id="open_grade" name="open_grade" readonly /></td>
       </tr>
       <tr>
         <td class="label">주요내용</td>

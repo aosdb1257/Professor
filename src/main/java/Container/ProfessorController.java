@@ -73,6 +73,7 @@ public class ProfessorController extends HttpServlet {
 		// 강의계획서 등록
 		else if (action.equals("/LecturePlanAdd.do")) {
 			planvo.setSubjectCode(request.getParameter("subjectCode"));
+			planvo.setSubjectName(request.getParameter("subjectName"));
 	        planvo.setProfessorId(request.getParameter("professorId"));
 	        planvo.setProfessorName(request.getParameter("professor"));
 	        planvo.setLecturePeriod(request.getParameter("lecturePeriod"));
@@ -86,7 +87,8 @@ public class ProfessorController extends HttpServlet {
 	        boolean result = professorService.addLecturePlan(planvo);
 
 		    if (result) {
-		        nextPage = "/Professor/Main"; // 성공 시 이동할 페이지
+		    	pw.println("<script>alert('등록 성공'); location.href='" + request.getContextPath() + 
+		    			"/Professor/Main';history.back()</script>");
 		    } else {
 		        pw.println("<script>alert('등록 실패');history.back();</script>");
 		        return;

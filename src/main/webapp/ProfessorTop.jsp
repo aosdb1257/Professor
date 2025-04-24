@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
 <!DOCTYPE html>
 <html lang="ko">
@@ -7,19 +6,22 @@
   <meta charset="UTF-8">
   <title>교수 학사관리 시스템</title>
   <style>
-    body {
+    html, body {
       margin: 0;
+      padding: 0;
+      height: 100%;
       font-family: '맑은 고딕', sans-serif;
     }
 
-    /* 상단 메뉴바 */
+    /* 부모 영역에서 .navbar를 정확히 꽉 채우기 위한 설정 */
     .navbar {
       background-color: #002147;
-      overflow: visible; /* 드롭다운이 잘리지 않도록 */
+      height: 100%; /* 🔥 부모의 높이 100% 채움 */
+      width: 100%;
       display: flex;
       justify-content: space-around;
-      padding: 10px 0;
-      position: relative; /* 드롭다운 위치 기준 */
+      align-items: center;
+      position: relative;
       z-index: 100;
     }
 
@@ -44,12 +46,12 @@
     .dropdown {
       display: none;
       position: absolute;
-      top: 100%; /* 메뉴바 바로 아래에 뜨게 */
+      top: 100%; /* 메뉴바 아래 */
       left: 0;
       background-color: white;
       min-width: 200px;
       box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
-      z-index: 1000; /* 다른 요소보다 위에 */
+      z-index: 1000;
     }
 
     .dropdown a {
@@ -113,25 +115,25 @@
   </div>
 
   <script>
-    // 클릭하면 드롭다운 열고 닫기
+    // 드롭다운 열고 닫기
     document.querySelectorAll('.nav-link').forEach(link => {
       link.addEventListener('click', function (e) {
         const parent = this.parentElement;
         const isActive = parent.classList.contains('active');
 
-        // 다른 드롭다운 닫기
+        // 모든 드롭다운 닫기
         document.querySelectorAll('.nav-item').forEach(item => {
           item.classList.remove('active');
         });
 
-        // 현재 것만 토글
+        // 현재만 열기
         if (!isActive) {
           parent.classList.add('active');
         }
       });
     });
 
-    // 바깥 클릭 시 드롭다운 닫기
+    // 외부 클릭 시 닫기
     document.addEventListener('click', function (e) {
       if (!e.target.closest('.nav-item')) {
         document.querySelectorAll('.nav-item').forEach(item => {
