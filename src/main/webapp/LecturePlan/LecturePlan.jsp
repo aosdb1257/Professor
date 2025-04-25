@@ -1,15 +1,21 @@
+<%@page import="java.net.URLEncoder"%>
+<%@page import="com.google.gson.Gson"%>
+<%@page import="Vo.LecturePlanVo"%>
 <%@page import="java.net.URLDecoder"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%
     request.setCharacterEncoding("UTF-8");
     String contextPath = request.getContextPath();
+    
     String jsonStr = request.getParameter("subjectList");
 	System.out.println("전달받은 강의목록 객체 : " + jsonStr);
 	// {"subjectCode":"RH1001","subjectName":"자료구조","subjectType":"전공","openGrade":2,"division":"A","credit":3,"professor":"홍길동","schedule":"월 1,2 / 공학관 101호","enrollment":"25/30"}
+    
+	LecturePlanVo lecturePlanVo = (LecturePlanVo) request.getAttribute("lecturePlanVo");
 	
-	// 디코딩시 오류
-	//String searchDecoding = URLDecoder.decode(request.getParameter("subjectList"), "UTF-8");
-	//System.out.println("전달받은 강의목록 객체 : " + searchDecoding);
+	Gson gson = new Gson();
+	String jsonlecturePlanVo = gson.toJson(lecturePlanVo); // 자바 객체 -> JSON 문자열
+	System.out.println("자바 객체 -> JSON 문자열 : " + jsonlecturePlanVo);
 %>
 
 <!DOCTYPE html>
@@ -84,12 +90,24 @@
 <body>
 <script>
   document.addEventListener("DOMContentLoaded", function () {
-    const subject = JSON.parse('<%= jsonStr %>');
+	  console.log("페이지 로딩됨");
+    // JSON 문자열을 JavaScript 객체로 변환
+	const subject = JSON.parse('<%= jsonStr %>');
+    console.log(subject);
+    const lP = JSON.parse('<%= jsonlecturePlanVo %>');
+    console.log(lP);
     document.getElementById("subjectCode").value = subject.subjectCode;
     document.getElementById("subjectName").value = subject.subjectName;
     document.getElementById("professor").value = subject.professor;
-    document.getElementById("professorId").value = subject.professorId || "";
+    document.getElementById("professorId").value = subject.professorId;
     document.getElementById("open_grade").value = subject.openGrade + "학년";
+    
+    document.getElementById("lecture_period").value = lP.lecturePeriod || "";
+    document.getElementById("main_content").value = lP.mainContent || "";
+    document.getElementById("goal").value = lP.goal;
+    document.getElementById("method").value = lP.method;
+    document.getElementById("content").value = lP.content;
+    document.getElementById("evaluation").value = lP.evaluation || "";
   });
 </script>
 
@@ -113,7 +131,7 @@
       </tr>
       <tr>
         <td class="label">강의기간</td>
-        <td><input type="text" name="lecturePeriod" /></td>
+        <td><input type="text" name="lecturePeriod" id="lecture_period"/></td>
       </tr>
       <tr>
         <td class="label">수강대상</td>
@@ -121,23 +139,23 @@
       </tr>
       <tr>
         <td class="label">주요내용</td>
-        <td><input type="text" name="mainContent" /></td>
+        <td><input type="text" name="mainContent" id="main_content"/></td>
       </tr>
       <tr>
         <td class="label">강의목표</td>
-        <td class="section"><textarea name="goal"></textarea></td>
+        <td class="section"><textarea name="goal" id="goal"></textarea></td>
       </tr>
       <tr>
         <td class="label">강의방법</td>
-        <td class="section"><textarea name="method"></textarea></td>
+        <td class="section"><textarea name="method" id="method"></textarea></td>
       </tr>
       <tr>
         <td class="label">강의내용</td>
-        <td class="section"><textarea name="content"></textarea></td>
+        <td class="section"><textarea name="content" id="content"></textarea></td>
       </tr>
       <tr>
         <td class="label">평가방법</td>
-        <td class="section"><textarea name="evaluation"></textarea></td>
+        <td class="section"><textarea name="evaluation" id="evaluation"></textarea></td>
       </tr>
     </table>
 

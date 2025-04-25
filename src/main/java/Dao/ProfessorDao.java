@@ -23,7 +23,7 @@ public class ProfessorDao {
 		try {
 			conn = DbcpBean.getConnection();
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, "6");
+			pstmt.setString(1, professorId);
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
@@ -78,5 +78,95 @@ public class ProfessorDao {
 			DbcpBean.close(conn, pstmt);
 		}
 		return false;
+	}
+
+	public boolean updateLacturePlan(LecturePlanVo planvo) {
+	    String sql = "UPDATE lecture_plan SET "
+	               + "lecture_period = ?, "
+	               + "target_students = ?, "
+	               + "main_content = ?, "
+	               + "goal = ?, "
+	               + "method = ?, "
+	               + "content = ?, "
+	               + "evaluation = ? "
+	               + "WHERE professor_name = ?";
+
+	    try {
+	        conn = DbcpBean.getConnection();
+	        pstmt = conn.prepareStatement(sql);
+
+	        pstmt.setString(1, planvo.getLecturePeriod());
+	        pstmt.setString(2, planvo.getTargetStudents());
+	        pstmt.setString(3, planvo.getMainContent());
+	        pstmt.setString(4, planvo.getGoal());
+	        pstmt.setString(5, planvo.getMethod());
+	        pstmt.setString(6, planvo.getContent());
+	        pstmt.setString(7, planvo.getEvaluation());
+	        pstmt.setString(8, planvo.getProfessorName());
+
+	        int result = pstmt.executeUpdate();
+	        return result > 0;
+	    } catch (Exception e) {
+	        System.out.println("강의계획서 수정 중 오류 발생");
+	        e.printStackTrace();
+	    } finally {
+	        DbcpBean.close(conn, pstmt);
+	    }
+
+	    return false;
+	}
+
+	public boolean deleteLecturePlan(String id) {
+		String sql = "delete from lecture_plan where professor_id = ?";
+		
+		try {
+			conn = DbcpBean.getConnection();
+	        pstmt = conn.prepareStatement(sql);
+
+	        pstmt.setString(1, id);
+
+	        int result = pstmt.executeUpdate();
+	        return result > 0;
+		} catch (Exception e) {
+			System.out.println("강의계획서 삭제 중 오류 발생");
+	        e.printStackTrace();
+		} finally {
+			DbcpBean.close(conn, pstmt);
+		}
+		return false;
+	}
+
+	public LecturePlanVo getAllLecturePlanList(String subjectCode) {
+		LecturePlanVo lecturePlanVo = null;
+		String sql = "select * from lecture_plan where subject_code = ?";
+		
+		try {
+			conn = DbcpBean.getConnection();
+	        pstmt = conn.prepareStatement(sql);
+
+	        pstmt.setString(1, subjectCode);
+	        
+	        rs = pstmt.executeQuery();
+	        if(rs.next()) {
+		        lecturePlanVo = new LecturePlanVo();
+	            lecturePlanVo.setSubjectCode(rs.getString("subject_code"));
+	            lecturePlanVo.setSubjectName(rs.getString("subject_name"));
+	            lecturePlanVo.setProfessorId(rs.getString("professor_id"));
+	            lecturePlanVo.setProfessorName(rs.getString("professor_name"));
+	            lecturePlanVo.setLecturePeriod(rs.getString("lecture_period"));
+	            lecturePlanVo.setTargetStudents(rs.getString("target_students"));
+	            lecturePlanVo.setMainContent(rs.getString("main_content"));
+	            lecturePlanVo.setGoal(rs.getString("goal"));
+	            lecturePlanVo.setMethod(rs.getString("method"));
+	            lecturePlanVo.setContent(rs.getString("content"));
+	            lecturePlanVo.setEvaluation(rs.getString("evaluation"));	        	
+	        }
+		} catch (Exception e) {
+			System.out.println("강의계획서 조회 중 오류 발생");
+	        e.printStackTrace();
+		} finally {
+			DbcpBean.close(conn, pstmt, rs);
+		}
+		return lecturePlanVo;
 	}
 }

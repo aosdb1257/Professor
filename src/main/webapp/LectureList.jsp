@@ -57,7 +57,7 @@
 					<td><%=vo.getEnrollment()%></td>
 					<td>
 						<button id="LecturePlanBtn" 
-							onclick="addLecturePlan('<%= encodeJson %>')">강의계획서 등록
+							onclick="addLecturePlan('<%= encodeJson %>', '<%=vo.getSubjectCode()%>')">강의계획서 등록
 						</button>
 					</td>
 				</tr>
@@ -73,8 +73,8 @@
 		%>
 	</table>
 	<script>
-		function addLecturePlan(subjectList) {
-		    const url = "<%=contextPath%>/LecturePlan/LecturePlan.jsp?subjectList=" + subjectList;
+		function addLecturePlan(subjectList, subjectCode) {
+		    const url = "<%=contextPath%>/Professor/LecturePlanLookUp.do?subjectList=" + subjectList + "&subjectCode=" + subjectCode;
 	
 		    window.open(url, 'lecturePlanPopup', "width=700,height=1000,left=200,top=500,resizable=no,scrollbars=yes");
 		}

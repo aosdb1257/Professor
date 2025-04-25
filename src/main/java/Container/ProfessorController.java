@@ -54,7 +54,7 @@ public class ProfessorController extends HttpServlet {
 		
 		// 로그인 중인 교수 id 를 얻기 위해
 		HttpSession session = request.getSession(false); // false는 세션이 없으면 새로운 세션을 만들지 않음
-
+		session.setAttribute("id", "6");
 
 		// 메인화면 요청 처리
 		if (action.equals("/Main")) {
@@ -63,13 +63,25 @@ public class ProfessorController extends HttpServlet {
 		} 
 		// 강의목록 조회
 		else if (action.equals("/LectureList.do")) {
-			String id = (String)session.getAttribute("id");
+			String id = (String) session.getAttribute("id");
+			System.out.println(id);
 			Vector<LectureListVo> LectureListV = ProfessorService.getAllLectureList(id);
 			request.setAttribute("v", LectureListV);
 			
 			request.setAttribute("center", "LectureList.jsp");
 			nextPage = "/ProfessorMain.jsp";
 		}
+		// 강의계획서 조회
+		else if (action.equals("/LecturePlanLookUp.do")) {
+			String subjectList = request.getParameter("subjectList");
+			String subjectCode = request.getParameter("subjectCode");
+			
+			LecturePlanVo lecturePlanVo = professorService.getAllLecturePlanList(subjectCode);
+			request.setAttribute("subjectList", subjectList);
+			request.setAttribute("lecturePlanVo", lecturePlanVo);
+			nextPage = "/LecturePlan/LecturePlan.jsp";
+		}
+
 		// 강의계획서 등록
 		else if (action.equals("/LecturePlanAdd.do")) {
 			planvo.setSubjectCode(request.getParameter("subjectCode"));
@@ -95,16 +107,43 @@ public class ProfessorController extends HttpServlet {
 		    }
 			
 		}
-		/*
 		// 강의계획서 수정
 		else if (action.equals("/LecturePlanUpdate.do")) {
-			
+			planvo.setSubjectCode(request.getParameter("subjectCode"));
+			planvo.setSubjectName(request.getParameter("subjectName"));
+	        planvo.setProfessorId(request.getParameter("professorId"));
+	        planvo.setProfessorName(request.getParameter("professor"));
+	        planvo.setLecturePeriod(request.getParameter("lecturePeriod"));
+	        planvo.setTargetStudents(request.getParameter("open_grade"));
+	        planvo.setMainContent(request.getParameter("mainContent"));
+	        planvo.setGoal(request.getParameter("goal"));
+	        planvo.setMethod(request.getParameter("method"));
+	        planvo.setContent(request.getParameter("content"));
+	        planvo.setEvaluation(request.getParameter("evaluation"));
+	        
+			boolean result = professorService.updateLecturePlan(planvo);
+		    if (result) {
+		    	pw.println("<script>alert('수정 성공'); location.href='" + request.getContextPath() + 
+		    			"/Professor/Main';history.back()</script>");
+		    } else {
+		        pw.println("<script>alert('수정 실패');history.back();</script>");
+		        return;
+		    }
 		}
 		// 강의계획서 삭제
 		else if (action.equals("/LecturePlanDelete.do")) {
+			String id = (String)session.getAttribute("id");
+			System.out.println("강의게획서 삭제 : " + id);
 			
+			boolean result = professorService.deleteLecturePlan(id);
+			if (result) {
+		    	pw.println("<script>alert('삭제 성공'); location.href='" + request.getContextPath() + 
+		    			"/Professor/Main';history.back()</script>");
+		    } else {
+		        pw.println("<script>alert('삭제 실패');history.back();</script>");
+		        return;
+		    }
 		}
-		*/
 		RequestDispatcher dispatche = request.getRequestDispatcher(nextPage);
 		dispatche.forward(request, response);
 	}
