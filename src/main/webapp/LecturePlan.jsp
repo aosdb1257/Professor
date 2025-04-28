@@ -160,9 +160,9 @@
     </table>
 
     <div class="bottom-buttons">
-      <button type="submit" formaction="<%=contextPath%>/Professor/LecturePlanAdd.do">등록하기</button>
-      <button type="submit" formaction="<%=contextPath%>/Professor/LecturePlanUpdate.do">수정하기</button>
-      <button type="submit" formaction="<%=contextPath%>/Professor/LecturePlanDelete.do">삭제하기</button>
+      <button type="submit" formaction="<%=contextPath%>/professor/lectures/lectureplanadd.do">등록하기</button>
+      <button type="submit" formaction="<%=contextPath%>/professor/lectures/lectureplanupdate.do">수정하기</button>
+      <button type="submit" formaction="<%=contextPath%>/professor/lectures/lectureplandelete.do">삭제하기</button>
     </div>
   </form>
 </div>

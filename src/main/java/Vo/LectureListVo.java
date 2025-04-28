@@ -10,14 +10,14 @@ public class LectureListVo {
     private int professorId;    // 담당교수 id (FK)
     private String professor;       // 담당교수
     private String schedule;        // 강의 요일/시간/강의실
-    private String enrollment;      // 신청/정원
+    private String enrollment;      // 신청
+    private String capacity;
     
 	public LectureListVo() {
 	}
 
-
 	public LectureListVo(String subjectCode, String subjectName, String subjectType, int openGrade, String division,
-			int credit, int professorId, String professor, String schedule, String enrollment) {
+			int credit, int professorId, String professor, String schedule, String enrollment, String capacity) {
 		this.subjectCode = subjectCode;
 		this.subjectName = subjectName;
 		this.subjectType = subjectType;
@@ -28,8 +28,12 @@ public class LectureListVo {
 		this.professor = professor;
 		this.schedule = schedule;
 		this.enrollment = enrollment;
+		this.capacity = capacity;
 	}
 
+	public String getCapacity() {return capacity;}
+
+	public void setCapacity(String capacity) {this.capacity = capacity;}
 
 	public String getSubjectCode() { return subjectCode; }
 	public void setSubjectCode(String subjectCode) { this.subjectCode = subjectCode; }

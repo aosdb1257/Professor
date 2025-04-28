@@ -3,8 +3,10 @@ package Service;
 import java.util.Vector;
 
 import Dao.ProfessorDao;
+import Vo.EnrolledStudentVo;
 import Vo.LectureListVo;
 import Vo.LecturePlanVo;
+import Vo.SubjectVo;
 
 public class ProfessorService {
 	ProfessorDao professorDao = new ProfessorDao();
@@ -27,6 +29,14 @@ public class ProfessorService {
 
 	public LecturePlanVo getAllLecturePlanList(String subjectCode) {
 		return professorDao.getAllLecturePlanList(subjectCode);
+	}
+
+	public Vector<EnrolledStudentVo> getAllEnrolledStudentList(String professor_id) {
+		return professorDao.getAllEnrolledStudentList(professor_id);
+	}
+
+	public boolean addSubject(SubjectVo subjectVo) {
+		return false;
 	}
 
 }

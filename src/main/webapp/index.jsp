@@ -2,5 +2,5 @@
     pageEncoding="UTF-8"%>
     
 <script>
-	location.href = "${pageContext.request.contextPath}/Professor/Main";
+	location.href = "${pageContext.request.contextPath}/professor/main";
 </script>

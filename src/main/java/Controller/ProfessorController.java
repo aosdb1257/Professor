@@ -1,4 +1,4 @@
-package Container;
+package Controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -14,10 +14,12 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import Service.ProfessorService;
+import Vo.EnrolledStudentVo;
 import Vo.LectureListVo;
 import Vo.LecturePlanVo;
+import Vo.SubjectVo;
 
-@WebServlet("/Professor/*")
+@WebServlet("/professor/*")
 public class ProfessorController extends HttpServlet {
 	private ProfessorService professorService;
 
@@ -57,12 +59,89 @@ public class ProfessorController extends HttpServlet {
 		session.setAttribute("id", "6");
 
 		// 메인화면 요청 처리
-		if (action.equals("/Main")) {
+		if (action.equals("/main")) {
 
 			nextPage = "/ProfessorMain.jsp";
-		} 
+		}
+		/*
+		 * ----------------------------------------------------------------------------
+		 *                                강의관리
+		 * ----------------------------------------------------------------------------
+		 */
+		// 강의 개설 폼 요청
+		else if (action.equals("/lectureform")) {
+			String id = (String) session.getAttribute("id");
+			System.out.println("강의 개설 폼 요청...");
+			
+			// 신청된 강의 조회
+			
+			
+			request.setAttribute("professor_id" , id);
+			request.setAttribute("center", "LectureForm.jsp");
+			
+			nextPage = "/ProfessorMain.jsp";
+		}
+		// 강의 개설 요청
+		else if (action.equals("/lecturecreate")) {
+		    // 폼 데이터 받아오기
+		    String subjectCode = request.getParameter("subject_code");
+		    String subjectName = request.getParameter("subject_name");
+		    String subjectType = request.getParameter("subject_type");
+		    int openGrade = Integer.parseInt(request.getParameter("open_grade"));
+		    String division = request.getParameter("division");
+		    int credit = Integer.parseInt(request.getParameter("credit"));
+		    int professorId = Integer.parseInt(request.getParameter("professor_id"));
+		    String professorName = request.getParameter("professor_name");
+		    int capacity = Integer.parseInt(request.getParameter("capacity"));
+
+		    // 요일/시간 처리 (schedule 문자열로 조합)
+		    String[] days = request.getParameterValues("day[]");
+		    String[] startTimes = request.getParameterValues("start_time[]");
+		    String[] endTimes = request.getParameterValues("end_time[]");
+
+		    StringBuilder scheduleBuilder = new StringBuilder();
+		    if (days != null && startTimes != null && endTimes != null) {
+		        for (int i = 0; i < days.length; i++) {
+		            scheduleBuilder.append(days[i])
+		                           .append(" ")
+		                           .append(startTimes[i])
+		                           .append("-")
+		                           .append(endTimes[i])
+		                           .append("교시, ");
+		        }
+		        // 마지막 콤마 제거
+		        if (scheduleBuilder.length() > 0) {
+		            scheduleBuilder.setLength(scheduleBuilder.length() - 2);
+		        }
+		    }
+		    String schedule = scheduleBuilder.toString();
+		    System.out.println(schedule);
+
+		    // SubjectVo 객체 생성
+		    SubjectVo subjectVo = new SubjectVo(
+		        subjectCode,
+		        subjectName,
+		        subjectType,
+		        openGrade,
+		        division,
+		        credit,
+		        professorId,
+		        professorName,
+		        schedule,
+		        0,          // 현재 수강 인원은 기본 0
+		        capacity,
+		        false        // 수강 가능 여부
+		    );
+
+		    boolean result = professorService.addSubject(subjectVo);
+
+		    if (result) {
+		    } else {
+		    } 
+		}
+		
 		// 강의목록 조회
-		else if (action.equals("/LectureList.do")) {
+		else if (action.equals("/lectures")) {
 			String id = (String) session.getAttribute("id");
 			System.out.println(id);
 			Vector<LectureListVo> LectureListV = ProfessorService.getAllLectureList(id);
@@ -72,18 +151,18 @@ public class ProfessorController extends HttpServlet {
 			nextPage = "/ProfessorMain.jsp";
 		}
 		// 강의계획서 조회
-		else if (action.equals("/LecturePlanLookUp.do")) {
+		else if (action.equals("/lectures/lectureplan")) {
 			String subjectList = request.getParameter("subjectList");
 			String subjectCode = request.getParameter("subjectCode");
 			
 			LecturePlanVo lecturePlanVo = professorService.getAllLecturePlanList(subjectCode);
 			request.setAttribute("subjectList", subjectList);
 			request.setAttribute("lecturePlanVo", lecturePlanVo);
-			nextPage = "/LecturePlan/LecturePlan.jsp";
+			nextPage = "/LecturePlan.jsp";
 		}
 
 		// 강의계획서 등록
-		else if (action.equals("/LecturePlanAdd.do")) {
+		else if (action.equals("/lectures/lectureplanadd.do")) {
 			planvo.setSubjectCode(request.getParameter("subjectCode"));
 			planvo.setSubjectName(request.getParameter("subjectName"));
 	        planvo.setProfessorId(request.getParameter("professorId"));
@@ -108,7 +187,7 @@ public class ProfessorController extends HttpServlet {
 			
 		}
 		// 강의계획서 수정
-		else if (action.equals("/LecturePlanUpdate.do")) {
+		else if (action.equals("/lectures/lectureplanupdate.do")) {
 			planvo.setSubjectCode(request.getParameter("subjectCode"));
 			planvo.setSubjectName(request.getParameter("subjectName"));
 	        planvo.setProfessorId(request.getParameter("professorId"));
@@ -131,7 +210,7 @@ public class ProfessorController extends HttpServlet {
 		    }
 		}
 		// 강의계획서 삭제
-		else if (action.equals("/LecturePlanDelete.do")) {
+		else if (action.equals("/lectures/lectureplandelete.do")) {
 			String id = (String)session.getAttribute("id");
 			System.out.println("강의게획서 삭제 : " + id);
 			
@@ -144,7 +223,23 @@ public class ProfessorController extends HttpServlet {
 		        return;
 		    }
 		}
-		RequestDispatcher dispatche = request.getRequestDispatcher(nextPage);
-		dispatche.forward(request, response);
+		/*
+		 * ----------------------------------------------------------------------------
+		 *                                수강생 관리
+		 * ----------------------------------------------------------------------------
+		 */
+		
+		// 1. 수강신청 학생명단 확인
+		else if(action.equals("/enrolledstudent")) {
+			String professor_id = (String)session.getAttribute("id");
+			System.out.println("수강신청 학생명단 확인");
+			
+			Vector<EnrolledStudentVo> enrolledStudentVo = professorService.getAllEnrolledStudentList(professor_id);
+			request.setAttribute("enrolledStudentList", enrolledStudentVo);
+			request.setAttribute("center", "EnrolledStudentList.jsp");
+			nextPage = "/ProfessorMain.jsp";
+		}
+		RequestDispatcher dispatcher = request.getRequestDispatcher(nextPage);
+		dispatcher.forward(request, response);
 	}
 }

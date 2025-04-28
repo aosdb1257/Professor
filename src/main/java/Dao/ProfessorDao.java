@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.Vector;
 
+import Vo.EnrolledStudentVo;
 import Vo.LectureListVo;
 import Vo.LecturePlanVo;
 
@@ -168,5 +169,57 @@ public class ProfessorDao {
 			DbcpBean.close(conn, pstmt, rs);
 		}
 		return lecturePlanVo;
+	}
+	// 수강신청 학생명단 확인
+	public Vector<EnrolledStudentVo> getAllEnrolledStudentList(String professor_id) {
+	    Vector<EnrolledStudentVo> enrolledStudent_list = new Vector<>();
+	    String sql = "SELECT " +
+	            "p.user_id AS professor_id, " +
+	            "p.professor_number, " +
+	            "s.subject_code, " +
+	            "s.subject_name, " +
+	            "stu.user_id AS student_id, " +
+	            "stu.name AS student_name, " +
+	            "st.student_number, " +
+	            "st.department " +
+	            "FROM Professor p " +
+	            "JOIN Subject s ON p.user_id = s.professor_id " +
+	            "JOIN Enrollment e ON s.subject_code = e.subject_code " +
+	            "JOIN Student st ON e.student_id = st.user_id " +
+	            "JOIN User stu ON st.user_id = stu.user_id " +
+	            "WHERE p.user_id = ?";
+
+	    Connection conn = null;
+	    PreparedStatement pstmt = null;
+	    ResultSet rs = null;
+
+	    try {
+	        conn = DbcpBean.getConnection(); // 커넥션 얻기
+	        pstmt = conn.prepareStatement(sql);
+	        pstmt.setString(1, professor_id);
+	        rs = pstmt.executeQuery();
+
+	        while (rs.next()) {
+	            EnrolledStudentVo enrolledStudentVo = new EnrolledStudentVo();
+	            enrolledStudentVo.setProfessorId(rs.getInt("professor_id"));
+	            enrolledStudentVo.setProfessorNumber(rs.getString("professor_number")); // 수정된 부분
+	            enrolledStudentVo.setSubjectCode(rs.getString("subject_code"));
+	            enrolledStudentVo.setSubjectName(rs.getString("subject_name"));
+	            enrolledStudentVo.setStudentId(rs.getInt("student_id"));
+	            enrolledStudentVo.setStudentName(rs.getString("student_name"));
+	            enrolledStudentVo.setStudentNumber(rs.getString("student_number"));
+	            enrolledStudentVo.setDepartment(rs.getString("department"));
+
+	            enrolledStudent_list.add(enrolledStudentVo);
+	        }
+
+	    } catch (Exception e) {
+	        System.out.println("수강신청 학생명단 조회 중 오류 발생");
+	        e.printStackTrace();
+	    } finally {
+	        DbcpBean.close(conn, pstmt, rs);
+	    }
+
+	    return enrolledStudent_list;
 	}
 }
