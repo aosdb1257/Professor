@@ -114,6 +114,7 @@ public class ProfessorController extends HttpServlet {
 		    }
 		    String schedule = scheduleBuilder.toString();
 		    System.out.println(schedule);
+		    System.out.println(capacity);
 		    // 월 4-6교시, 월 7-8교시
 
 		    SubjectVo subjectVo = new SubjectVo(
@@ -147,7 +148,9 @@ public class ProfessorController extends HttpServlet {
 			String id = (String) session.getAttribute("id");
 			
 			Vector<SubjectVo> LectureListV = professorService.getAllRequestLectureList(id);
-			
+			for(SubjectVo s : LectureListV) {
+				System.out.println("이값인데 : "+s.getisAvailable()); // false
+			}
 			request.setAttribute("subjectList", LectureListV);
 			request.setAttribute("center", "RequestSubjectList.jsp");
 			nextPage = "/ProfessorMain.jsp";

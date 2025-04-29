@@ -77,14 +77,14 @@
       <div class="nav-link">강의관리</div>
       <div class="dropdown">
         <a href="${pageContext.request.contextPath}/professor/lectureform">강의 개설 요청</a>
-        <a href="${pageContext.request.contextPath}/professor/lecturerequest">요청 강의 확인</a>
-        <a href="${pageContext.request.contextPath}/professor/lectures">강의목록 조회</a>
+        <a href="${pageContext.request.contextPath}/professor/lecturerequest">나의 요청 강의 확인</a>
+        <a href="${pageContext.request.contextPath}/professor/lectures">나의 강의목록 조회</a>
       </div>
     </div>
     <div class="nav-item">
       <div class="nav-link">수강생 관리</div>
       <div class="dropdown">
-        <a href="${pageContext.request.contextPath}/professor/enrolledstudent">수강신청 학생 명단 확인</a>
+        <a href="${pageContext.request.contextPath}/professor/enrolledstudent">수강신청 학생명단 확인</a>
         <a href="#">학생 정보 조회</a>
       </div>
     </div>

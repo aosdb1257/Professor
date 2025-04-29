@@ -67,6 +67,6 @@ public class SubjectVo {
     public int getCapacity() { return capacity; }
     public void setCapacity(int capacity) { this.capacity = capacity; }
 
-    public boolean isAvailable() { return isAvailable; }
+    public boolean getisAvailable() { return isAvailable; }
     public void setAvailable(boolean isAvailable) { this.isAvailable = isAvailable; }
 }

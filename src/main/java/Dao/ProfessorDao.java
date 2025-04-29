@@ -20,7 +20,7 @@ public class ProfessorDao {
 		Vector<LectureListVo> list = new Vector<>();
 
 		String sql = "SELECT subject_code, subject_name, subject_type, open_grade, division, credit, "
-				+ "professor_id, professor_name, schedule, current_enrollment " + "FROM subject WHERE professor_id = ?";
+				+ "professor_id, professor_name, schedule, current_enrollment, capacity " + "FROM subject WHERE professor_id = ?";
 
 		try {
 			conn = DbcpBean.getConnection();
@@ -40,6 +40,7 @@ public class ProfessorDao {
 				vo.setProfessor(rs.getString("professor_name"));
 				vo.setSchedule(rs.getString("schedule"));
 				vo.setEnrollment(rs.getString("current_enrollment"));
+				vo.setCapacity(rs.getString("capacity"));
 				list.add(vo);
 			}
 		} catch (Exception e) {
@@ -69,7 +70,7 @@ public class ProfessorDao {
 			pstmt.setString(9, subjectVo.getSchedule());
 			pstmt.setInt(10, subjectVo.getCurrentEnrollment());
 			pstmt.setInt(11, subjectVo.getCapacity());
-			pstmt.setBoolean(12, subjectVo.isAvailable());
+			pstmt.setBoolean(12, subjectVo.getisAvailable());
 			
 			int result = pstmt.executeUpdate();
 			return result > 0;

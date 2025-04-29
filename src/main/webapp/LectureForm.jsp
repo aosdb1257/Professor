@@ -12,14 +12,19 @@
 <title>과목 등록</title>
 	<style>
 		body {
+			margin: 0;  /* 화면을 꽉 차게 하기위한 기본설정 */
+	        padding: 0;
 			font-family: Arial, sans-serif;
-			margin: 30px;
 		}
-		
+		.container {
+	        width: 90%;         /* 전체 폭의 90% 사용 (양쪽 5% 여백) */
+	        margin: 0 auto;     /* 중앙 정렬 */
+	        padding-top: 20px;
+    	}
 		table {
 			width: 800px;
 			border-collapse: collapse;
-			margin: auto;
+			margin: 0 auto;
 			background-color: #f9f9f9;
 		}
 		
@@ -31,7 +36,7 @@
 		th {
 			background-color: #2c3e50;
 			color: white;
-			text-align: left;
+			text-align: center;
 		}
 		
 		input[type="text"], input[type="number"], select {
@@ -79,7 +84,7 @@
 			cursor: pointer;
 		}
 		
-		.center {
+		.center_button {
 			text-align: center;
 		}
 		.input-with-button {
@@ -229,89 +234,91 @@
 </head>
 
 <body>
-	<h2 style="text-align: center;">과목 등록</h2>
-	<form action="<%=contextPath%>/professor/lecturecreate" method="post"
-		onsubmit="return validateForm();">
-		<table>
-			<tr>
-				<th>항목</th>
-				<th>입력</th>
-			</tr>
-
-			<tr>
-				<td>과목 코드</td>
-				<td>
-					<div class="input-with-button">
-						<input type="text" id="subject_code" name="subject_code" required oninput="isSubjectCodeChecked=false;">
-						<button type="button" onclick="checkSubjectCode()">중복 체크</button>
-					</div>
-				</td>
-			</tr>
-			<tr>
-				<td>과목 이름</td>
-				<td><input type="text" name="subject_name" required></td>
-			</tr>
-			<tr>
-				<td>과목 유형</td>
-				<td><select name="subject_type" required>
-						<option value="전공">전공</option>
-						<option value="교양">교양</option>
-				</select></td>
-			</tr>
-			<tr>
-				<td>개설 학년</td>
-				<td><select name="open_grade" required>
-						<option value="1">1학년</option>
-						<option value="2">2학년</option>
-						<option value="3">3학년</option>
-						<option value="4">4학년</option>
-				</select></td>
-			</tr>
-			<tr>
-				<td>분반</td>
-				<td><input type="text" name="division" required></td>
-			</tr>
-			<tr>
-				<td>학점</td>
-				<td><input type="number" name="credit" required></td>
-			</tr>
-			<tr>
-				<td>담당 교수 ID</td>
-				<td>
-					<div class="input-with-button">
-						<input type="number" id="professor_id" name="professor_id"
-							required oninput="isProfessorIdChecked=false;">
-						<button type="button" onclick="checkProfessorId()">교수 확인</button>
-					</div>
-				</td>
-			</tr>
-			<tr>
-				<td>담당 교수 이름</td>
-				<td><input type="text" name="professor_name" required></td>
-			</tr>
-
-			<tr>
-				<td>개설 요일/시간</td>
-				<td>
-					<div id="dayTimeContainer"></div>
-					<div class="center">
-						<button type="button" class="add-button" onclick="addDayTimeRow()">
-						요일/시간 추가
-						</button>
-					</div>
-				</td>
-			</tr>
-
-			<tr>
-				<td>수강 정원</td>
-				<td><input type="number" name="capacity" required></td>
-			</tr>
-		</table>
-
-		<div class="center">
-			<input type="hidden" name="current_enrollment" value="0"> <input
-				type="submit" value="과목 등록">
-		</div>
-	</form>
+	<div class="container">
+		<h2 style="text-align: center; padding-bottom: 20px;">과목 등록</h2>
+		<form action="<%=contextPath%>/professor/lecturecreate" method="post"
+			onsubmit="return validateForm();">
+			<table>
+				<tr>
+					<th>항목</th>
+					<th>입력</th>
+				</tr>
+	
+				<tr>
+					<td>과목 코드</td>
+					<td>
+						<div class="input-with-button">
+							<input type="text" id="subject_code" name="subject_code" required oninput="isSubjectCodeChecked=false;">
+							<button type="button" onclick="checkSubjectCode()">중복 체크</button>
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td>과목 이름</td>
+					<td><input type="text" name="subject_name" required></td>
+				</tr>
+				<tr>
+					<td>과목 유형</td>
+					<td><select name="subject_type" required>
+							<option value="전공">전공</option>
+							<option value="교양">교양</option>
+					</select></td>
+				</tr>
+				<tr>
+					<td>개설 학년</td>
+					<td><select name="open_grade" required>
+							<option value="1">1학년</option>
+							<option value="2">2학년</option>
+							<option value="3">3학년</option>
+							<option value="4">4학년</option>
+					</select></td>
+				</tr>
+				<tr>
+					<td>분반</td>
+					<td><input type="text" name="division" required></td>
+				</tr>
+				<tr>
+					<td>학점</td>
+					<td><input type="number" name="credit" required></td>
+				</tr>
+				<tr>
+					<td>담당 교수 ID</td>
+					<td>
+						<div class="input-with-button">
+							<input type="number" id="professor_id" name="professor_id"
+								required oninput="isProfessorIdChecked=false;">
+							<button type="button" onclick="checkProfessorId()">교수 확인</button>
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td>담당 교수 이름</td>
+					<td><input type="text" name="professor_name" required></td>
+				</tr>
+	
+				<tr>
+					<td>개설 요일/시간</td>
+					<td>
+						<div id="dayTimeContainer"></div>
+						<div class="center_button">
+							<button type="button" class="add-button" onclick="addDayTimeRow()">
+							요일/시간 추가
+							</button>
+						</div>
+					</td>
+				</tr>
+	
+				<tr>
+					<td>수강 정원</td>
+					<td><input type="number" name="capacity" required></td>
+				</tr>
+			</table>
+	
+			<div class="center_button">
+				<input type="hidden" name="current_enrollment" value="0"> 
+				<input type="submit" value="과목 등록">
+			</div>
+		</form>
+	</div>
 </body>
 </html>

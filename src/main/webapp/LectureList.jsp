@@ -15,7 +15,7 @@
 	Gson gson = new Gson();
 
 	int pageSize = 10; // 한 페이지에 출력할 강의 수
-	int pageNum = 1; // 기본 페이지
+	int pageNum = 1;   // 기본 페이지
 	if (request.getParameter("pageNum") != null) {
 		pageNum = Integer.parseInt(request.getParameter("pageNum"));
 	}
@@ -32,20 +32,25 @@
 <title>강의 목록</title>
 <style>
     body {
-        margin: 0;
+        margin: 0;  /* 화면을 꽉 차게 하기위한 기본설정 */
         padding: 0;
+        font-family: Arial, sans-serif;
     }
     .container {
-        width: 70%; /* 전체 폭의 70% 사용 (양쪽 15% 여백) */
-        margin: 0 auto; /* 중앙 정렬 */
+        width: 90%;         /* 전체 폭의 70% 사용 (양쪽 15% 여백) */
+        margin: 0 auto;     /* 중앙 정렬 */
         padding-top: 20px;
     }
     table {
         width: 100%;
-        border-collapse: collapse;
+        border-collapse: collapse; /* 셀 테투리와 셀 간 간격을 없애고 테두리들을 깔끔하게 붙임 */
     }
     th, td {
         text-align: center;
+    }
+    th {
+        background-color: #2c3e50;
+        color: white;
     }
     .pagination a {
         margin: 0 5px;
@@ -59,8 +64,8 @@
 </head>
 <body>
 <div class="container">
-	<h2 style="text-align: center;">강의 목록</h2>
-	<table border="1" cellpadding="8" cellspacing="0">
+	<h2 style="text-align: center; padding-bottom: 20px;">강의 목록</h2>
+	<table border="1" cellpadding="8"> <!-- 글자와 셀 테두리 사이의 여백 -->
 		<tr>
 			<th>과목코드</th>
 			<th>과목명</th>
@@ -76,13 +81,15 @@
 		</tr>
 
 		<%
+		// 리스트 객체가 아예 없는 경우 && 리스트가 있어도 안에 데이터 없는 경우
 		if (pageList != null && !pageList.isEmpty()) {
 			for (LectureListVo vo : pageList) {
 				String json = gson.toJson(vo); // 자바 객체 -> JSON 문자열
 				String encodeJson = URLEncoder.encode(json, "utf-8"); // JSON 문자열 -> URL 안전한 문자열
+				System.out.println("이거222222222222222 : " + json);
 		%>
 				<tr>
-					<td><%=vo.getSubjectCode()%></td>
+					<td><%=vo.getSubjectCode()%></td> 
 					<td><%=vo.getSubjectName()%></td>
 					<td><%=vo.getSubjectType()%></td>
 					<td><%=vo.getOpenGrade()%></td>
