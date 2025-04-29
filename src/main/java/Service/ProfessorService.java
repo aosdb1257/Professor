@@ -36,7 +36,7 @@ public class ProfessorService {
 	}
 
 	public boolean addSubject(SubjectVo subjectVo) {
-		return false;
+		return professorDao.addLectureForm(subjectVo);
 	}
 
 }

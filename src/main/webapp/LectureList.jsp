@@ -59,7 +59,7 @@
 </head>
 <body>
 <div class="container">
-	<h2>강의 목록</h2>
+	<h2 style="text-align: center;">강의 목록</h2>
 	<table border="1" cellpadding="8" cellspacing="0">
 		<tr>
 			<th>과목코드</th>

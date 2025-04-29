@@ -1,7 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"%>
 <%
-request.setCharacterEncoding("UTF-8"); // 한글 처리
-String contextPath = request.getContextPath();
+	request.setCharacterEncoding("UTF-8"); // 한글 처리
+	String contextPath = request.getContextPath();
+	String professor_id = (String) request.getAttribute("professor_id");
+	System.out.println("이거야 교수아이디 : " + professor_id); // 이거야 교수아이디 : 6
 %>
 
 <!DOCTYPE html>
@@ -97,8 +99,8 @@ String contextPath = request.getContextPath();
 		}
 	</style>
 	<script>
-        let isSubjectCodeChecked = true;
-        let isProfessorIdChecked = true;
+        let isSubjectCodeChecked = false;
+        let isProfessorIdChecked = false;
 
         function validateForm() {
             if (!isSubjectCodeChecked) {
@@ -106,10 +108,16 @@ String contextPath = request.getContextPath();
                 return false;
             }
             if (!isProfessorIdChecked) {
-                alert("교수 ID 존재 여부를 확인하세요!");
+                alert("교수 ID 일치 여부를 확인하세요!");
                 return false;
             }
-
+            
+            const dayInputs = document.getElementsByName("day[]");
+            if (dayInputs.length === 0) {
+                alert("개설 요일/시간을 최소 1개 이상 추가해야 합니다!");
+                return false;
+            }
+            
             const startTimes = document.getElementsByName("start_time[]");
             const endTimes = document.getElementsByName("end_time[]");
             for (let i = 0; i < startTimes.length; i++) {
@@ -127,7 +135,49 @@ String contextPath = request.getContextPath();
             }
             return true;
         }
-
+        // 과목코드 중복체크
+        function checkSubjectCode() {
+            const subjectCode = document.getElementById('subject_code').value.trim();
+            if (subjectCode === "") {
+                alert("과목 코드를 입력하세요.");
+                return;
+            }
+            fetch('<%=contextPath%>/check_subject_code.jsp?subject_code=' + encodeURIComponent(subjectCode))
+                .then(response => response.text())
+                .then(result => {
+                    if (result.trim() === "OK") {
+                        alert("사용 가능한 과목 코드입니다!");
+                        isSubjectCodeChecked = true;
+                    } else if (result.trim() === "DUPLICATE") {
+                        alert("이미 존재하는 과목 코드입니다.");
+                        isSubjectCodeChecked = false;
+                    } else {
+                        alert("서버 오류가 발생했습니다.");
+                        isSubjectCodeChecked = false;
+                    }
+                })
+                .catch(error => {
+                    console.error("에러 발생:", error);
+                    alert("과목 코드 중복 체크 실패!");
+                    isSubjectCodeChecked = false;
+                });
+        }
+		// 담당교수 ID가 유효한지(DB에 있는 아이디인지)
+        function checkProfessorId() {
+			const professorId = <%=professor_id%>;
+            const professorInput = document.getElementById('professor_id').value.trim();
+            if (professorInput === "") {
+                alert("교수 ID를 입력하세요.");
+                return;
+            } else if (professorId === Number(professorInput)) {
+            	alert("교수 ID 일치합니다!");
+            	isProfessorIdChecked = true;
+            } else {
+            	alert("교수 ID가 불일치합니다!");
+            	return;
+            }
+        }
+		// 수업 요일/시작 교시/종료 교시 입력란 한 세트를 동적으로 추가
         function addDayTimeRow() {
             const container = document.getElementById('dayTimeContainer');
             const row = document.createElement('div');
@@ -193,7 +243,7 @@ String contextPath = request.getContextPath();
 				<td>과목 코드</td>
 				<td>
 					<div class="input-with-button">
-						<input type="text" id="subject_code" name="subject_code" required>
+						<input type="text" id="subject_code" name="subject_code" required oninput="isSubjectCodeChecked=false;">
 						<button type="button" onclick="checkSubjectCode()">중복 체크</button>
 					</div>
 				</td>
@@ -220,7 +270,7 @@ String contextPath = request.getContextPath();
 			</tr>
 			<tr>
 				<td>분반</td>
-				<td><input type="text" name="division"></td>
+				<td><input type="text" name="division" required></td>
 			</tr>
 			<tr>
 				<td>학점</td>
@@ -231,7 +281,7 @@ String contextPath = request.getContextPath();
 				<td>
 					<div class="input-with-button">
 						<input type="number" id="professor_id" name="professor_id"
-							required>
+							required oninput="isProfessorIdChecked=false;">
 						<button type="button" onclick="checkProfessorId()">교수 확인</button>
 					</div>
 				</td>
@@ -246,8 +296,9 @@ String contextPath = request.getContextPath();
 				<td>
 					<div id="dayTimeContainer"></div>
 					<div class="center">
-						<button type="button" class="add-button" onclick="addDayTimeRow()">요일/시간
-							추가</button>
+						<button type="button" class="add-button" onclick="addDayTimeRow()">
+						요일/시간 추가
+						</button>
 					</div>
 				</td>
 			</tr>

@@ -8,6 +8,7 @@ import java.util.Vector;
 import Vo.EnrolledStudentVo;
 import Vo.LectureListVo;
 import Vo.LecturePlanVo;
+import Vo.SubjectVo;
 
 public class ProfessorDao {
 	Connection conn = null;
@@ -50,6 +51,33 @@ public class ProfessorDao {
 		return list;
 	}
 
+	// 강의테이블에 등록(is_available은 false상태로 등록)
+	public boolean addLectureForm(SubjectVo subjectVo) {
+		String sql = "insert into subject (subject_code, subject_name, subject_type, open_grade, division, credit, professor_id, professor_name, schedule, current_enrollment, capacity, is_available) "
+				+ "values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		try {
+			conn = DbcpBean.getConnection();
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, subjectVo.getSubjectCode());
+			pstmt.setString(2, subjectVo.getSubjectName());
+			pstmt.setString(3, subjectVo.getSubjectType());
+			pstmt.setInt(4, subjectVo.getOpenGrade());
+			pstmt.setString(5, subjectVo.getDivision());
+			pstmt.setInt(6, subjectVo.getCapacity());
+			pstmt.setInt(7, subjectVo.getProfessorId());
+			pstmt.setString(8, subjectVo.getProfessorName());
+			pstmt.setString(9, subjectVo.getSchedule());
+			pstmt.setInt(10, subjectVo.getCurrentEnrollment());
+			pstmt.setInt(11, subjectVo.getCapacity());
+			pstmt.setBoolean(12, subjectVo.isAvailable());
+			
+			int result = pstmt.executeUpdate();
+			return result > 0;
+		} catch (Exception e) {
+		}
+		return false;
+	}
+	// 강의계획서 등록
 	public boolean addLecturePlan(LecturePlanVo planvo) {
 		String sql = "INSERT INTO lecture_plan (subject_code, subject_name, professor_id, professor_name, lecture_period, target_students, main_content, goal, method, content, evaluation) "
 				+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
@@ -80,7 +108,7 @@ public class ProfessorDao {
 		}
 		return false;
 	}
-
+	// 강의계획서 수정
 	public boolean updateLacturePlan(LecturePlanVo planvo) {
 	    String sql = "UPDATE lecture_plan SET "
 	               + "lecture_period = ?, "
@@ -116,7 +144,7 @@ public class ProfessorDao {
 
 	    return false;
 	}
-
+	// 강의계획서 삭제
 	public boolean deleteLecturePlan(String id) {
 		String sql = "delete from lecture_plan where professor_id = ?";
 		
@@ -136,7 +164,7 @@ public class ProfessorDao {
 		}
 		return false;
 	}
-
+	// 강의계획서 조회
 	public LecturePlanVo getAllLecturePlanList(String subjectCode) {
 		LecturePlanVo lecturePlanVo = null;
 		String sql = "select * from lecture_plan where subject_code = ?";

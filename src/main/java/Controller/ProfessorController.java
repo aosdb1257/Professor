@@ -55,6 +55,9 @@ public class ProfessorController extends HttpServlet {
 		LecturePlanVo planvo = new LecturePlanVo();
 		
 		// 로그인 중인 교수 id 를 얻기 위해
+		/*
+		 *  나중에 로그인 받을때 int 타입의 교수 id를 String으로 변환해서 바인딩해야함.
+		 */
 		HttpSession session = request.getSession(false); // false는 세션이 없으면 새로운 세션을 만들지 않음
 		session.setAttribute("id", "6");
 
@@ -73,9 +76,6 @@ public class ProfessorController extends HttpServlet {
 			String id = (String) session.getAttribute("id");
 			System.out.println("강의 개설 폼 요청...");
 			
-			// 신청된 강의 조회
-			
-			
 			request.setAttribute("professor_id" , id);
 			request.setAttribute("center", "LectureForm.jsp");
 			
@@ -83,7 +83,6 @@ public class ProfessorController extends HttpServlet {
 		}
 		// 강의 개설 요청
 		else if (action.equals("/lecturecreate")) {
-		    // 폼 데이터 받아오기
 		    String subjectCode = request.getParameter("subject_code");
 		    String subjectName = request.getParameter("subject_name");
 		    String subjectType = request.getParameter("subject_type");
@@ -94,7 +93,6 @@ public class ProfessorController extends HttpServlet {
 		    String professorName = request.getParameter("professor_name");
 		    int capacity = Integer.parseInt(request.getParameter("capacity"));
 
-		    // 요일/시간 처리 (schedule 문자열로 조합)
 		    String[] days = request.getParameterValues("day[]");
 		    String[] startTimes = request.getParameterValues("start_time[]");
 		    String[] endTimes = request.getParameterValues("end_time[]");
@@ -116,8 +114,8 @@ public class ProfessorController extends HttpServlet {
 		    }
 		    String schedule = scheduleBuilder.toString();
 		    System.out.println(schedule);
+		    // 월 4-6교시, 월 7-8교시
 
-		    // SubjectVo 객체 생성
 		    SubjectVo subjectVo = new SubjectVo(
 		        subjectCode,
 		        subjectName,
@@ -134,10 +132,15 @@ public class ProfessorController extends HttpServlet {
 		    );
 
 		    boolean result = professorService.addSubject(subjectVo);
-
+		    
 		    if (result) {
+		        request.setAttribute("message", "강의 등록이 완료되었습니다!");
+		        request.setAttribute("center", "CompleteRegisteringLecture.jsp");
 		    } else {
-		    } 
+		        request.setAttribute("message", "강의 등록에 실패했습니다. 다시 시도해주세요.");
+		        request.setAttribute("center", "FailRegisteringLecture.jsp");
+		    }
+		    nextPage = "/ProfessorMain.jsp";
 		}
 		
 		// 강의목록 조회
@@ -147,6 +150,7 @@ public class ProfessorController extends HttpServlet {
 			Vector<LectureListVo> LectureListV = ProfessorService.getAllLectureList(id);
 			request.setAttribute("v", LectureListV);
 			
+			// 강의 등록 신청 완료 화면
 			request.setAttribute("center", "LectureList.jsp");
 			nextPage = "/ProfessorMain.jsp";
 		}
