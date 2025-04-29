@@ -142,11 +142,21 @@ public class ProfessorController extends HttpServlet {
 		    }
 		    nextPage = "/ProfessorMain.jsp";
 		}
+		// 요청한 강의 확인
+		else if (action.equals("/lecturerequest")) {
+			String id = (String) session.getAttribute("id");
+			
+			Vector<SubjectVo> LectureListV = professorService.getAllRequestLectureList(id);
+			
+			request.setAttribute("subjectList", LectureListV);
+			request.setAttribute("center", "RequestSubjectList.jsp");
+			nextPage = "/ProfessorMain.jsp";
+		}
 		
 		// 강의목록 조회
 		else if (action.equals("/lectures")) {
 			String id = (String) session.getAttribute("id");
-			System.out.println(id);
+			
 			Vector<LectureListVo> LectureListV = ProfessorService.getAllLectureList(id);
 			request.setAttribute("v", LectureListV);
 			

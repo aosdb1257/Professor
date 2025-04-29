@@ -250,4 +250,44 @@ public class ProfessorDao {
 
 	    return enrolledStudent_list;
 	}
+
+	public Vector<SubjectVo> getAllRequestLectureList(String id) {
+	    Vector<SubjectVo> subjectList = new Vector<>();
+	    String sql = "SELECT subject_code, subject_name, subject_type, open_grade, division, credit, " +
+	                 "professor_id, professor_name, schedule, current_enrollment, capacity, is_available " +
+	                 "FROM Subject WHERE professor_id = ? AND is_available = false";
+
+	    try {
+	        conn = DbcpBean.getConnection(); // 커넥션 풀에서 커넥션 얻기
+	        pstmt = conn.prepareStatement(sql);
+	        
+	        int professorId = Integer.parseInt(id); 
+	        pstmt.setInt(1, professorId); // 교수 ID 파라미터 설정
+	        rs = pstmt.executeQuery();
+
+	        while (rs.next()) {
+	            SubjectVo subjectVo = new SubjectVo();
+	            subjectVo.setSubjectCode(rs.getString("subject_code"));
+	            subjectVo.setSubjectName(rs.getString("subject_name"));
+	            subjectVo.setSubjectType(rs.getString("subject_type"));
+	            subjectVo.setOpenGrade(rs.getInt("open_grade"));
+	            subjectVo.setDivision(rs.getString("division"));
+	            subjectVo.setCredit(rs.getInt("credit"));
+	            subjectVo.setProfessorId(rs.getInt("professor_id"));
+	            subjectVo.setProfessorName(rs.getString("professor_name"));
+	            subjectVo.setSchedule(rs.getString("schedule"));
+	            subjectVo.setCurrentEnrollment(rs.getInt("current_enrollment"));
+	            subjectVo.setCapacity(rs.getInt("capacity"));
+	            subjectVo.setAvailable(rs.getBoolean("is_available"));
+	            subjectList.add(subjectVo); // 과목 정보를 리스트에 추가
+	        }
+	    } catch (Exception e) {
+	        System.out.println("수정되지 않은 과목 리스트 조회 중 오류 발생");
+	        e.printStackTrace();
+	    } finally {
+	        DbcpBean.close(conn, pstmt, rs); 
+	    }
+
+	    return subjectList;
+	}
 }

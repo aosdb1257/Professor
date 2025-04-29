@@ -3,7 +3,6 @@
 	request.setCharacterEncoding("UTF-8"); // 한글 처리
 	String contextPath = request.getContextPath();
 	String professor_id = (String) request.getAttribute("professor_id");
-	System.out.println("이거야 교수아이디 : " + professor_id); // 이거야 교수아이디 : 6
 %>
 
 <!DOCTYPE html>

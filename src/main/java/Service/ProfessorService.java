@@ -39,4 +39,8 @@ public class ProfessorService {
 		return professorDao.addLectureForm(subjectVo);
 	}
 
+	public Vector<SubjectVo> getAllRequestLectureList(String id) {
+		return professorDao.getAllRequestLectureList(id);
+	}
+
 }
