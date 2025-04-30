@@ -1,14 +1,14 @@
-package Dao;
+package professordao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.Vector;
 
-import Vo.EnrolledStudentVo;
-import Vo.LectureListVo;
-import Vo.LecturePlanVo;
-import Vo.SubjectVo;
+import professorvo.EnrolledStudentVo;
+import professorvo.LectureListVo;
+import professorvo.LecturePlanVo;
+import professorvo.SubjectVo;
 
 public class ProfessorDao {
 	Connection conn = null;
@@ -20,7 +20,7 @@ public class ProfessorDao {
 		Vector<LectureListVo> list = new Vector<>();
 
 		String sql = "SELECT subject_code, subject_name, subject_type, open_grade, division, credit, "
-				+ "professor_id, professor_name, schedule, current_enrollment, capacity " + "FROM subject WHERE professor_id = ?";
+				+ "professor_id, professor_name, schedule, current_enrollment, capacity, is_available " + "FROM subject WHERE professor_id = ?";
 
 		try {
 			conn = DbcpBean.getConnection();
@@ -41,6 +41,7 @@ public class ProfessorDao {
 				vo.setSchedule(rs.getString("schedule"));
 				vo.setEnrollment(rs.getString("current_enrollment"));
 				vo.setCapacity(rs.getString("capacity"));
+				vo.setAvailable(rs.getBoolean("is_available"));
 				list.add(vo);
 			}
 		} catch (Exception e) {
@@ -251,12 +252,12 @@ public class ProfessorDao {
 
 	    return enrolledStudent_list;
 	}
-
-	public Vector<SubjectVo> getAllRequestLectureList(String id) {
+	// 강의 테이블 조회
+	public Vector<SubjectVo> getAllSubject(String id) {
 	    Vector<SubjectVo> subjectList = new Vector<>();
 	    String sql = "SELECT subject_code, subject_name, subject_type, open_grade, division, credit, " +
 	                 "professor_id, professor_name, schedule, current_enrollment, capacity, is_available " +
-	                 "FROM Subject WHERE professor_id = ? AND is_available = false";
+	                 "FROM Subject WHERE professor_id = ?";
 
 	    try {
 	        conn = DbcpBean.getConnection(); // 커넥션 풀에서 커넥션 얻기

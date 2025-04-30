@@ -1,4 +1,4 @@
-package Vo;
+package professorvo;
 
 public class EnrolledStudentVo {
     private int professorId;         // 교수 ID

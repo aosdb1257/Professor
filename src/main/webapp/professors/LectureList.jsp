@@ -2,7 +2,7 @@
 <%@page import="java.net.URLEncoder"%>
 <%@page import="com.google.gson.GsonBuilder"%>
 <%@page import="com.google.gson.Gson"%>
-<%@page import="Vo.LectureListVo"%>
+<%@page import="professorvo.LectureListVo"%>
 <%@page import="java.util.Vector"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
@@ -74,7 +74,7 @@
 			<th>분배</th>
 			<th>학점</th>
 			<th>교수</th>
-			<th>시간/장소</th>
+			<th>시간</th>
 			<th>신청</th>
 			<th>정원</th>
 			<th>강의계획서</th>
@@ -85,8 +85,13 @@
 		if (pageList != null && !pageList.isEmpty()) {
 			for (LectureListVo vo : pageList) {
 				String json = gson.toJson(vo); // 자바 객체 -> JSON 문자열
+				System.out.println("json : " + gson);
 				String encodeJson = URLEncoder.encode(json, "utf-8"); // JSON 문자열 -> URL 안전한 문자열
-				System.out.println("이거222222222222222 : " + json);
+				System.out.println("encodeJson :  " + encodeJson);
+				
+				Boolean tempBoolean = true;
+				if(vo.getisAvailable() == false) tempBoolean = false;
+				if(vo.getisAvailable() == true) {
 		%>
 				<tr>
 					<td><%=vo.getSubjectCode()%></td> 
@@ -106,6 +111,14 @@
 					</td>
 				</tr>
 		<%
+				}
+				if(tempBoolean = false) {
+		%>
+					<tr>
+						<td colspan="11" style="text-align:center;">조회된 강의가 없습니다.</td>
+					</tr>
+		<%
+				}
 			}
 		} else {
 		%>

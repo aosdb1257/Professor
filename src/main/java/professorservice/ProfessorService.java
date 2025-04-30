@@ -1,17 +1,16 @@
-package Service;
+package professorservice;
 
 import java.util.Vector;
 
-import Dao.ProfessorDao;
-import Vo.EnrolledStudentVo;
-import Vo.LectureListVo;
-import Vo.LecturePlanVo;
-import Vo.SubjectVo;
+import professordao.ProfessorDao;
+import professorvo.EnrolledStudentVo;
+import professorvo.LectureListVo;
+import professorvo.LecturePlanVo;
+import professorvo.SubjectVo;
 
 public class ProfessorService {
 	ProfessorDao professorDao = new ProfessorDao();
-	public static Vector<LectureListVo> getAllLectureList(String id) {
-		ProfessorDao professorDao = new ProfessorDao();
+	public Vector<LectureListVo> getAllLectureList(String id) {
 		return professorDao.getAllLectureList(id);
 	}
 
@@ -38,9 +37,8 @@ public class ProfessorService {
 	public boolean addSubject(SubjectVo subjectVo) {
 		return professorDao.addLectureForm(subjectVo);
 	}
-
-	public Vector<SubjectVo> getAllRequestLectureList(String id) {
-		return professorDao.getAllRequestLectureList(id);
+	// subject table 조회 (요청한 강의 확인 + 교수 강의 시간표 조회)
+	public Vector<SubjectVo> getAllSubject(String id) {
+		return professorDao.getAllSubject(id);
 	}
-
 }

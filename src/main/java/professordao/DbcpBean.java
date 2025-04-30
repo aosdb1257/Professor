@@ -1,4 +1,4 @@
-package Dao;
+package professordao;
 
 import java.sql.Connection;
 import java.sql.ResultSet;

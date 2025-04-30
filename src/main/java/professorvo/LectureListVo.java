@@ -1,4 +1,4 @@
-package Vo;
+package professorvo;
 
 public class LectureListVo {
     private String subjectCode;     // 과목코드 (PK)
@@ -12,12 +12,13 @@ public class LectureListVo {
     private String schedule;        // 강의 요일/시간/강의실
     private String enrollment;      // 신청
     private String capacity;
+    private boolean isAvailable;     // 수강 가능 여부
     
 	public LectureListVo() {
 	}
 
 	public LectureListVo(String subjectCode, String subjectName, String subjectType, int openGrade, String division,
-			int credit, int professorId, String professor, String schedule, String enrollment, String capacity) {
+			int credit, int professorId, String professor, String schedule, String enrollment, String capacity, boolean isAvailable) {
 		this.subjectCode = subjectCode;
 		this.subjectName = subjectName;
 		this.subjectType = subjectType;
@@ -29,6 +30,7 @@ public class LectureListVo {
 		this.schedule = schedule;
 		this.enrollment = enrollment;
 		this.capacity = capacity;
+		this.isAvailable = isAvailable;
 	}
 
 	public String getCapacity() {return capacity;}
@@ -64,4 +66,7 @@ public class LectureListVo {
 
 	public String getEnrollment() { return enrollment; }
 	public void setEnrollment(String enrollment) { this.enrollment = enrollment; }
+
+	public boolean getisAvailable() {return isAvailable;}
+	public void setAvailable(boolean isAvailable) {this.isAvailable = isAvailable;}
 }

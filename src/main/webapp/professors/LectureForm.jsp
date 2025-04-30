@@ -121,21 +121,39 @@
                 alert("개설 요일/시간을 최소 1개 이상 추가해야 합니다!");
                 return false;
             }
-            
-            const startTimes = document.getElementsByName("start_time[]");
-            const endTimes = document.getElementsByName("end_time[]");
+            // 요일/시간 체크
+            const days = document.getElementsByName("day[]"); // ex 월, 월, 수
+            const startTimes = document.getElementsByName("start_time[]"); // ex 1, 2, 5
+            const endTimes = document.getElementsByName("end_time[]"); // ex 3, 3, 6
+			let tempDay = {"월": [], "화": [], "수": [], "목": [], "금": []};
             for (let i = 0; i < startTimes.length; i++) {
+            	// i = 0 일때 월 1 ~ 3
+            	// i = 1 일때 월 2 ~ 3
+            	// i = 2 일때 수 5 ~ 6
+            	const day = days[i].value;
                 const start = parseInt(startTimes[i].value);
                 const end = parseInt(endTimes[i].value);
-
+				
                 if (isNaN(start) || isNaN(end)) {
-                    alert(`${i + 1}번째 요일/시간이 비어 있습니다.`);
+                    alert((i+1) + "번째 요일/시간이 비어 있습니다.");
                     return false;
                 }
+                // 시작 교시가 종료 교시보다 늦을 때
                 if (start > end) {
-                    alert(`${i + 1}번째 시작 교시가 종료 교시보다 늦습니다.`);
+                    alert((i+1) + "번째 시작 교시가 종료 교시보다 늦습니다.");
                     return false;
                 }
+                // 겹치는지 검사
+		        for (let t = start; t <= end; t++) {
+		            if (tempDay[day].includes(t)) {
+		                alert((i + 1)+"번째 입력 ("+day+" "+start+"~"+end+"교시)가 이전 입력과 겹칩니다.");
+		                return false;
+		            }
+		        }
+		        // 겹치지 않으면 tempDay에 시간 등록
+		        for (let t = start; t <= end; t++) {
+		            tempDay[day].push(t);
+		        }
             }
             return true;
         }
@@ -146,7 +164,7 @@
                 alert("과목 코드를 입력하세요.");
                 return;
             }
-            fetch('<%=contextPath%>/check_subject_code.jsp?subject_code=' + encodeURIComponent(subjectCode))
+            fetch('<%=contextPath%>/professors/check_subject_code.jsp?subject_code=' + encodeURIComponent(subjectCode))
                 .then(response => response.text())
                 .then(result => {
                     if (result.trim() === "OK") {

@@ -79,6 +79,7 @@
         <a href="${pageContext.request.contextPath}/professor/lectureform">강의 개설 요청</a>
         <a href="${pageContext.request.contextPath}/professor/lecturerequest">나의 요청 강의 확인</a>
         <a href="${pageContext.request.contextPath}/professor/lectures">나의 강의목록 조회</a>
+        <a href="${pageContext.request.contextPath}/professor/timetable">나의 시간표 조회</a>
       </div>
     </div>
     <div class="nav-item">

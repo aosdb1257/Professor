@@ -1,4 +1,4 @@
-package Vo;
+package professorvo;
 
 public class SubjectVo {
     private String subjectCode;      // 과목 코드
