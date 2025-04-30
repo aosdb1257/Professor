@@ -1,0 +1,135 @@
+
+
+- 메인 뷰 관련 URL
+
+/campus/*
+/campus/main - 메인 화면 이동 (GET)
+
+- 멤버관련
+
+/member/*
+/member/register	 - 회원가입 화면 요청 (GET)
+/member/new	 - 회원가입 처리 (POST)
+/member/checkEmail - 회원가입 시 이메일 중복확인 (AJAX)
+/member/loginForm   - 로그인 화면 이동 (GET)
+/member/login	  - 로그인 요청 (POST)
+/member/logout	  - 로그아웃 (GET)
+
+- 학생관련
+
+/student/*
+
+--수강관련
+
+/student/enrollFor          - 수강신청 화면 요청(GET)
+/student/enroll	        - 수강신청(POST)
+/student/courcelist	        - 수강목록확인(GET)
+/student/enrolldelete      - 수강신청 취소(POST)
+
+--성적관련
+
+/student/grades	     - 전체 학기 성적 조회(GET)
+/student/gradesDetail  - 특정 학기 성적 상세조회(GET)
+
+-- 시간표
+/student/timetable	     - 개인 수강 시간표 조회(GET)
+
+-- 개인정보 수정(학적상태변경 및 기타 개인정보)
+/student/profile	    - 개인 정보 수정폼 화면 요청(GET)
+/student/profileupdate - 개인 정보 수정 요청(POST) 
+
+-- 학생질문글 작성
+/student/qnaform	    - 학생 질문글 폼요청(GET)
+/student/qnaclass	    - 학생 강의관련 질문글 등록(POST)
+/student/qnacampus    - 학생 학교관련 질문글 등록(POST)
+
+
+-----------------------------------------------------------------------------------
+- 교수관련
+-------------------------------------------------------------------------------------
+/professor/*
+/professor/main - 메인화면
+
+--강의 관리---------------------------------------------------------------------
+/professor/lectureform     - 강의 개설 폼 요청(GET)
+/professor/lecturecreate   - 강의 개설 요청(POST)
+
+/professor/lecturerequest  - 요청한 강의 확인
+
+/professor/lectures	                           - 본인이 맡은 강의목록조회(GET) 
+/professor/lectures/lectureplan              - 강의계획서 조회
+/professor/lectures/lectureplanadd.do     - 강의계획서 추가
+/professor/lectures/lectureplanupdate.do - 강의계획서 수정
+/professor/lectures/lectureplandelete.do  - 강의계획서 삭제
+
+/professor/timetable	        - 교수 강의 시간표 조회(GET)
+
+-- 학생 관련---------------------------------------------------------------------
+/professor/enrolledstudent - 수강신청 학생명단 조회
+
+
+
+-----------------------------------------------------------------------------------
+
+/professor/lecturedetail   - 특정 강의 상세 조회(GET)
+/professor/lectureupdate  - 강의 정보 수정(POST)(정보수정은 특정강의상세조회에서 수정할수있도록)
+/professor/lecturedelete   - 강의 삭제 요청(POST)
+
+
+
+
+--성적 입력 및 조회
+/professor/gradeslist	         - 강의목록에서 수강생 성적조회(GET)
+/professor/gradesupdate    - 수강생 성적 입력 및 수정 (POST)
+
+--질문글 관련
+/professor/qnaform	          - 교수 질문글 폼요청(GET)
+/professor/qnacampus        - 교수 학교관련 질문글 등록(POST)
+/professor/qnalist	          - 강의 관련 질문 모아보기(GET)
+/professor/qnareplyform     - 강의 답변글 폼요청(GET)
+/professor/qnareply	          - 교수 강의 관련 답변글 등록요청(POST)
+
+----------------------------------------------------------------------------------------
+
+- 관리자 관련
+
+/admin/*
+
+--교내구성원 목록확인
+/admin/memberlist	       - 교내 구성원 확인
+
+-- 공지사항 관련
+/admin/noticeform	       - 공지사항 등록폼 요청(GET)
+/admin/notice	       - 공지사항 등록 요청(POST)
+/admin/noticeupdate       - 공지사항 수정 요청(POST)
+/admin/noticedelete	        - 공지사항 삭제 요청(POST)
+
+
+-- 강의 관련
+/admin/lecturelist	        - 교수가 등록한 강의 목록 보기(GET)
+/admin/approve	        - 교수가 등록한 강의 승인 처리(POST)
+/admin/reject	        - 교수가 등록한 강의 거부 처리(POST)
+
+
+--학사일정 관리(?)<-- 관련해선 회의가 필요
+/admin/schedule	         
+
+--질문글 관련
+/admin/qnalist	- 전체 질문글 목록 조회(GET)
+/admin/qnadetail	- 특정 질문글 보기(GET)
+/admin/replyform	- 답변 작성 폼 요청(GET)
+/admin/reply	- 답변 작성 요청(POST)
+
+- 공지사항 게시판 관련
+
+/notice/*
+/notice/list	- 공지사항 목록 조회요청(GET)
+/notice/detail	- 특정 공지사항 확인
+
+- 질문게시판 관련
+
+/qna/*
+
+/qna/list		- 질문글 목록 조회요청(GET)
+/qna/detail	- 특정 질문글 확인
+
